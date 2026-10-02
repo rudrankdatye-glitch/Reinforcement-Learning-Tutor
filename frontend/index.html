@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RL Tutor — Reinforcement Learning Teaching Assistant</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-icon">🧠</span>
+        <div>
+          <h1>RL Teaching Assistant</h1>
+          <p>Reinforcement Learning Teaching Assistant</p>
+        </div>
+      </div>
+      <button id="clearBtn" class="clear-btn">Clear chat</button>
+    </header>
+
+    <main class="chat-window" id="chatWindow">
+      <div class="message assistant">
+        <div class="avatar">🤖</div>
+        <div class="bubble">Hi! I'm your RL Tutor. Ask me anything about Reinforcement Learning — MDPs, value functions, Q-learning, policy gradients, and more.</div>
+      </div>
+    </main>
+
+    <div class="examples" id="examples">
+      <button class="chip">What is a Markov Decision Process?</button>
+      <button class="chip">Explain Q-learning simply</button>
+      <button class="chip">Exploration vs exploitation?</button>
+      <button class="chip">Policy vs value function?</button>
+    </div>
+
+    <form id="chatForm" class="input-area">
+      <input type="text" id="userInput" placeholder="Ask an RL question..." autocomplete="off" required>
+      <button type="submit" id="sendBtn">Send</button>
+    </form>
+
+    <p class="status" id="statusLine"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
