@@ -18,10 +18,15 @@ function addMessage(text, sender) {
   avatar.textContent = sender === "user" ? "🧑" : "🤖";
   const bubble = document.createElement("div");
   bubble.className = "bubble";
+  // Keep model output as text (not HTML) for safety, then typeset any MathJax formulas.
   bubble.textContent = text;
   msg.appendChild(avatar);
   msg.appendChild(bubble);
   chatWindow.appendChild(msg);
+
+  if (sender === "assistant" && window.MathJax && window.MathJax.typesetPromise) {
+    window.MathJax.typesetPromise([bubble]).catch((err) => console.error("MathJax typesetting failed:", err));
+  }
   chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
