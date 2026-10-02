@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import logging
 
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
@@ -22,12 +23,12 @@ def ask(req: AskRequest):
     try:
         reply = generate_reply(req.history, req.question)
         return {"reply": reply}
-    except Exception as exc:
-        # Keep the public response useful without exposing a full traceback.
-        raise HTTPException(
-            status_code=500,
-            detail="The model could not generate a response. Check the server logs.",
-        ) from exc
+   except Exception as exc:
+    logging.exception("Error while generating RL Tutor reply")
+    raise HTTPException(
+        status_code=500,
+        detail="The model could not generate a response. Check the server logs.",
+    ) from exc
 
 
 @app.get("/health")
