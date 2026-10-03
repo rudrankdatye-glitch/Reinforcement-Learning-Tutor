@@ -136,3 +136,32 @@ body {
 @media (max-width: 600px) {
   .app { height: 100vh; border-radius: 0; }
 }
+
+/* ---------- Rich assistant messages (lists, bold, math) ---------- */
+.bubble.rich { white-space: normal; max-width: 100%; overflow-wrap: anywhere; }
+.bubble.rich p { margin: 0 0 8px; }
+.bubble.rich > :last-child { margin-bottom: 0; }
+.bubble.rich ul, .bubble.rich ol { margin: 4px 0 8px 20px; }
+.bubble.rich li { margin: 3px 0; }
+.bubble.rich h4 { font-size: 14px; margin: 8px 0 4px; color: #f1f5f9; }
+.bubble.rich strong { color: #f8fafc; }
+.bubble.rich code {
+  background: #0b1220; padding: 1px 5px; border-radius: 4px;
+  font-family: ui-monospace, Consolas, monospace; font-size: 13px;
+}
+.bubble.rich pre {
+  background: #0b1220; padding: 10px 12px; border-radius: 8px;
+  overflow-x: auto; margin: 6px 0 8px; white-space: pre;
+}
+.bubble.rich pre code { background: none; padding: 0; }
+
+/* Math */
+.math-block {
+  display: block; margin: 10px 0; padding: 8px 12px;
+  background: rgba(99, 102, 241, 0.10); border-left: 3px solid #6366f1;
+  border-radius: 6px; overflow-x: auto; overflow-y: hidden; text-align: center;
+}
+.math-block.plain { font-family: Cambria, 'Times New Roman', serif; font-size: 15px; }
+.math-plain { font-family: Cambria, 'Times New Roman', serif; }
+.bubble.rich mjx-container { color: #f1f5f9; }
+.bubble.rich mjx-container[display="true"] { margin: 0 !important; max-width: 100%; }
