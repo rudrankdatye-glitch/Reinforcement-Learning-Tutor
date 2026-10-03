@@ -1,12 +1,15 @@
+import logging
 import os
 from pathlib import Path
-import logging
 
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from backend import generate_reply
+from backend import generate_reply, MODEL_NAME, INFERENCE_MODE
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("rl-tutor")
 
 app = FastAPI(title="RL Teaching Assistant")
 
@@ -21,22 +24,26 @@ class AskRequest(BaseModel):
 @app.post("/ask")
 def ask(req: AskRequest):
     try:
-        reply = generate_reply(req.history, req.question)
-        return {"reply": reply}
-   except Exception as exc:
-    logging.exception("Error while generating RL Tutor reply")
-    raise HTTPException(
-        status_code=500,
-        detail="The model could not generate a response. Check the server logs.",
-    ) from exc
+        return {"reply": generate_reply(req.history, req.question)}
+    except Exception as exc:
+        # This line is what puts the REAL error into the Render logs.
+        logger.exception("generate_reply failed (mode=%s, model=%s)", INFERENCE_MODE, MODEL_NAME)
+        raise HTTPException(
+            status_code=500,
+            detail=f"{type(exc).__name__}: {str(exc)[:300]}",
+        ) from exc
 
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    return {
+        "status": "ok",
+        "mode": INFERENCE_MODE,
+        "model": MODEL_NAME,
+        "hf_token_set": bool(os.environ.get("HF_TOKEN")),
+    }
 
 
-# API routes are declared before the frontend mount.
 app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
 
 
